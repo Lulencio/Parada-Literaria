@@ -1,6 +1,6 @@
   :root {
-    --cream: #F5EFE0;
-    --parchment: #EDE3C8;
+    --cream: #E6D6BD; /* El color exacto del fondo de tu logo */
+    --parchment: #DBC8A8; /* Un tono un poco más oscuro para contrastes */
     --ink: #1C1409;
     --bark: #3D2B1A;
     --terracotta: #C4571A;
@@ -26,10 +26,12 @@
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    /* Un patrón de ruido más marcado para simular el papel */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.4;
+    opacity: 0.8;
+    mix-blend-mode: multiply;
   }
 
   /* ─── NAV ─── */
@@ -702,79 +704,95 @@
   }
 
   /* ─── EQUIPO ─── */
-  #equipo {
-    background: var(--ink);
-    color: var(--cream);
-  }
+  /* ─── EQUIPO (Arreglado) ─── */
+#equipo {
+  background: var(--cream); /* Cambiamos el fondo a claro */
+  color: var(--bark); /* Cambiamos el texto principal a oscuro */
+}
 
-  .team-header {
-    text-align: center;
-    margin-bottom: 5rem;
-  }
+.team-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
 
-  .team-header .section-title { color: var(--cream); }
-  .team-header .section-eyebrow { color: var(--gold); justify-content: center; }
-  .team-header .section-eyebrow::after { display: none; }
+/* Arreglamos los títulos para que sean visibles */
+.team-header .section-title { color: var(--bark); }
+.team-header .section-eyebrow { color: var(--gold); justify-content: center; }
+.team-header .section-eyebrow::after { display: none; }
 
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-  }
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas perfectas */
+  gap: 2.5rem; /* Un poco más de espacio entre tarjetas */
+}
 
-  .team-card {
-    text-align: center;
-    padding: 2.5rem 1.5rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
+.team-card {
+  text-align: center;
+  padding: 3rem 2rem;
+  /* Cambiamos el fondo de la tarjeta para que contraste sutilmente */
+  background: rgba(61, 43, 26, 0.03);
+  border: 1px solid rgba(61, 43, 26, 0.08);
+  transition: all 0.3s;
+  position: relative;
+}
 
-  .team-card:hover {
-    background: rgba(196, 87, 26, 0.08);
-    border-color: rgba(196, 87, 26, 0.3);
-    transform: translateY(-4px);
-  }
+.team-card:hover {
+  background: rgba(196, 87, 26, 0.08);
+  border-color: rgba(196, 87, 26, 0.3);
+  transform: translateY(-4px);
+}
 
-  .team-avatar {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin: 0 auto 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5rem;
-    background: rgba(255,255,255,0.05);
-    border: 2px solid rgba(184, 146, 10, 0.3);
-  }
+/* ─── EL TRUCO PARA LAS FOTOS CIRCULARES ─── */
+.team-avatar {
+  width: 150px; /* Fotos más grandes y profesionales */
+  height: 150px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Esto crea el círculo perfecto */
+  border-radius: 50%; 
+  overflow: hidden; /* Corta la imagen sobrante */
+  
+  border: 4px solid #fff; /* Un borde blanco elegante */
+  box-shadow: 0 8px 24px rgba(28, 20, 9, 0.12); /* Sombra suave */
+}
 
-  .team-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--cream);
-    margin-bottom: 0.3rem;
-  }
+/* Reglas críticas para que la foto no se estire */
+.team-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Evita que las caras se deformen */
+  object-position: center; /* Centra la cara */
+}
 
-  .team-role {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
+/* Ajustes de color de texto para el fondo claro */
+.team-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
 
-  .team-bio {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: rgba(245, 239, 224, 0.5);
-    font-style: italic;
-  }
+.team-role {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terracotta); /* Rol en terracotta para destacar */
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.team-bio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(28, 20, 9, 0.7);
+  font-style: italic;
+}
 
   /* ─── DONAR ─── */
   #donar {
