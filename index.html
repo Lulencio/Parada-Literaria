@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parada Literaria — Bibliotecas en Centros de Salud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5EFE0;
+    --parchment: #EDE3C8;
+    --ink: #1C1409;
+    --bark: #3D2B1A;
+    --terracotta: #C4571A;
+    --sage: #5C7A5C;
+    --gold: #B8920A;
+    --rust: #A0390F;
+    --light-sage: #E8F0E8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(245, 239, 224, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184, 146, 10, 0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--bark);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span {
+    color: var(--terracotta);
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bark);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--terracotta); }
+
+  .nav-cta {
+    background: var(--terracotta);
+    color: var(--cream) !important;
+    padding: 0.6rem 1.5rem;
+    border-radius: 2px;
+    transition: background 0.3s !important;
+  }
+
+  .nav-cta:hover { background: var(--rust) !important; color: var(--cream) !important; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 6rem 6rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--terracotta);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--bark);
+    margin-bottom: 2rem;
+    line-height: 1.4;
+  }
+
+  .hero-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #5a4a38;
+    max-width: 480px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--terracotta);
+    color: var(--cream);
+    padding: 1rem 2.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--rust);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(160, 57, 15, 0.3);
+  }
+
+  .btn-secondary {
+    color: var(--bark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid var(--bark);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .btn-secondary:hover { color: var(--terracotta); border-color: var(--terracotta); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--parchment);
+  }
+
+  .stat-item { text-align: left; }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--terracotta);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bark);
+    margin-top: 0.3rem;
+  }
+
+  .hero-right {
+    background: var(--bark);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-visual {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Decorative bookshelf illustration */
+  .bookshelf-art {
+    width: 80%;
+    max-width: 420px;
+    position: relative;
+  }
+
+  .shelf {
+    background: rgba(255,255,255,0.05);
+    border-bottom: 4px solid rgba(255,255,255,0.15);
+    padding: 1rem 0.5rem 0.5rem;
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+    align-items: flex-end;
+  }
+
+  .book {
+    border-radius: 2px 4px 4px 2px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.6);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding: 6px 3px;
+    cursor: default;
+    transition: transform 0.3s;
+  }
+
+  .book:hover { transform: translateY(-8px); }
+
+  .book.b1 { width: 28px; height: 120px; background: #C4571A; }
+  .book.b2 { width: 22px; height: 95px; background: #5C7A5C; }
+  .book.b3 { width: 32px; height: 130px; background: #B8920A; }
+  .book.b4 { width: 18px; height: 85px; background: #8B4513; }
+  .book.b5 { width: 26px; height: 110px; background: #A0522D; }
+  .book.b6 { width: 20px; height: 100px; background: #6B8E6B; }
+  .book.b7 { width: 30px; height: 140px; background: #D4691A; }
+  .book.b8 { width: 24px; height: 90px; background: #C8A228; }
+  .book.b9 { width: 16px; height: 75px; background: #7B9E7B; }
+  .book.b10 { width: 28px; height: 115px; background: #8B3A3A; }
+  .book.b11 { width: 22px; height: 105px; background: #5A7A8A; }
+  .book.b12 { width: 26px; height: 88px; background: #A08040; }
+
+  .shelf2 .book { height: calc(var(--h) * 0.85); }
+
+  .hero-quote {
+    position: absolute;
+    bottom: 3rem;
+    left: 3rem;
+    right: 3rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: rgba(245, 239, 224, 0.7);
+    line-height: 1.5;
+    border-left: 2px solid var(--terracotta);
+    padding-left: 1.2rem;
+  }
+
+  .hero-quote cite {
+    display: block;
+    font-style: normal;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 224, 0.4);
+    margin-top: 0.5rem;
+  }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: 7rem 0; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--parchment);
+    max-width: 80px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--terracotta); }
+
+  /* ─── ABOUT ─── */
+  #nosotros {
+    background: var(--ink);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #nosotros::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 40rem;
+    color: rgba(255,255,255,0.02);
+    position: absolute;
+    top: -10rem;
+    right: -5rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-text .section-eyebrow { color: var(--gold); }
+  .about-text .section-eyebrow::after { background: rgba(184,146,10,0.3); }
+
+  .about-text .section-title { color: var(--cream); }
+  .about-text .section-title em { color: var(--gold); }
+
+  .about-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: rgba(245, 239, 224, 0.8);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-values {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .value-icon {
+    width: 42px;
+    height: 42px;
+    background: rgba(196, 87, 26, 0.15);
+    border: 1px solid rgba(196, 87, 26, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+  }
+
+  .value-text strong {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .value-text p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(245, 239, 224, 0.6);
+  }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--terracotta), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideIn 0.6s forwards;
+  }
+
+  .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+  .timeline-item:nth-child(2) { animation-delay: 0.3s; }
+  .timeline-item:nth-child(3) { animation-delay: 0.5s; }
+  .timeline-item:nth-child(4) { animation-delay: 0.7s; }
+
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.75rem;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(196, 87, 26, 0.2);
+  }
+
+  .timeline-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--terracotta);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-event {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: rgba(245, 239, 224, 0.5);
+    line-height: 1.5;
+  }
+
+  /* ─── COMO FUNCIONA ─── */
+  #como-funciona {
+    background: var(--parchment);
+  }
+
+  .how-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .how-card {
+    background: var(--cream);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .how-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(28, 20, 9, 0.12);
+    z-index: 1;
+  }
+
+  .how-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--terracotta);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+
+  .how-card:hover::before { transform: scaleX(1); }
+
+  .how-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--parchment);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .how-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .how-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--bark);
+    margin-bottom: 1rem;
+  }
+
+  .how-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #6a5a48;
+  }
+
+  /* ─── PROYECTOS ─── */
+  #proyectos {
+    background: var(--cream);
+  }
+
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--parchment);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover { transform: translateY(-4px); }
+
+  .project-card.featured {
+    grid-column: span 2;
+  }
+
+  .project-img {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+
+  .project-card.featured .project-img { height: 320px; }
+
+  .project-img.img-hospital { background: linear-gradient(135deg, #5C7A5C 0%, #3D5A3D 100%); }
+  .project-img.img-clinic { background: linear-gradient(135deg, #C4571A 0%, #7A3010 100%); }
+  .project-img.img-pediatric { background: linear-gradient(135deg, #B8920A 0%, #6B5600 100%); }
+  .project-img.img-mobile { background: linear-gradient(135deg, #3D2B1A 0%, #1C1409 100%); }
+
+  .project-badge {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    background: var(--cream);
+    color: var(--terracotta);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+  }
+
+  .project-body {
+    padding: 1.8rem;
+  }
+
+  .project-location {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+  }
+
+  .project-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #6a5a48;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-meta {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .meta-item {
+    text-align: left;
+  }
+
+  .meta-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--bark);
+  }
+
+  .meta-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9a8a78;
+  }
+
+  /* ─── EQUIPO ─── */
+  #equipo {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .team-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .team-header .section-title { color: var(--cream); }
+  .team-header .section-eyebrow { color: var(--gold); justify-content: center; }
+  .team-header .section-eyebrow::after { display: none; }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .team-card {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-card:hover {
+    background: rgba(196, 87, 26, 0.08);
+    border-color: rgba(196, 87, 26, 0.3);
+    transform: translateY(-4px);
+  }
+
+  .team-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(184, 146, 10, 0.3);
+  }
+
+  .team-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+
+  .team-role {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .team-bio {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(245, 239, 224, 0.5);
+    font-style: italic;
+  }
+
+  /* ─── DONAR ─── */
+  #donar {
+    background: var(--terracotta);
+    color: var(--cream);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #donar::before {
+    content: '📚';
+    font-size: 30rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .donate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .donate-title em { font-style: italic; color: var(--parchment); }
+
+  .donate-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: rgba(245, 239, 224, 0.85);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  .donate-options {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .donate-option {
+    background: rgba(245, 239, 224, 0.1);
+    border: 1px solid rgba(245, 239, 224, 0.3);
+    padding: 1.5rem 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 160px;
+  }
+
+  .donate-option:hover, .donate-option.active {
+    background: var(--cream);
+    border-color: var(--cream);
+  }
+
+  .donate-option:hover .opt-title,
+  .donate-option.active .opt-title { color: var(--terracotta); }
+
+  .donate-option:hover .opt-desc,
+  .donate-option.active .opt-desc { color: var(--bark); }
+
+  .opt-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+
+  .opt-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+    transition: color 0.3s;
+  }
+
+  .opt-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(245, 239, 224, 0.6);
+    transition: color 0.3s;
+  }
+
+  .btn-donate {
+    background: var(--cream);
+    color: var(--terracotta);
+    padding: 1.2rem 3rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+  }
+
+  .btn-donate:hover {
+    background: var(--ink);
+    color: var(--cream);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(28, 20, 9, 0.3);
+  }
+
+  /* ─── CONTACTO ─── */
+  #contacto {
+    background: var(--cream);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-info .section-eyebrow { color: var(--terracotta); }
+
+  .contact-item {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .contact-icon {
+    width: 46px;
+    height: 46px;
+    background: var(--parchment);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .contact-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 0.3rem;
+  }
+
+  .contact-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .contact-social {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .social-btn {
+    width: 46px;
+    height: 46px;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .social-btn:hover { background: var(--terracotta); }
+
+  .contact-form {
+    background: var(--parchment);
+    padding: 3rem;
+  }
+
+  .form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--bark);
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bark);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    background: var(--cream);
+    border: 1px solid rgba(61, 43, 26, 0.15);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--terracotta);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--bark);
+    color: rgba(245, 239, 224, 0.6);
+    padding: 4rem 0 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand .nav-logo {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: block;
+    color: var(--cream);
+  }
+
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-col h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-links a {
+    color: rgba(245, 239, 224, 0.5);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--cream); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(245, 239, 224, 0.3);
+  }
+
+  .footer-heart { color: var(--terracotta); }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 2rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vh; }
+    .hero-left { padding: 4rem 2rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .how-grid { grid-template-columns: 1fr; gap: 2px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .container { padding: 0 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo">Parada <span>Literaria</span></div>
+  <ul class="nav-links">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="#donar" class="nav-cta">Donar libro</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Iniciativa Cultural Comunitaria</div>
+    <h1 class="hero-title">
+      Libros en<br>cada <em>espera</em>
+    </h1>
+    <p class="hero-subtitle">Acercando la lectura a quienes más la necesitan</p>
+    <p class="hero-desc">
+      Parada Literaria nace de una idea simple y poderosa: convertir las salas de espera de los centros de salud en espacios vivos de cultura y conocimiento. Libros que van, libros que vuelven, historias que se comparten.
+    </p>
+    <div class="hero-actions">
+      <a href="#proyectos" class="btn-primary">Ver proyectos</a>
+      <a href="#donar" class="btn-secondary">Donar un libro</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Centros de salud</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">850</div>
+        <div class="stat-label">Libros circulando</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3K</div>
+        <div class="stat-label">Lectores alcanzados</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="bookshelf-art">
+        <div class="shelf">
+          <div class="book b1">García Márquez</div>
+          <div class="book b2">Neruda</div>
+          <div class="book b3">Borges</div>
+          <div class="book b4">Allende</div>
+          <div class="book b5">Benedetti</div>
+          <div class="book b6">Cortázar</div>
+          <div class="book b7">Mistral</div>
+          <div class="book b8">Vargas Llosa</div>
+          <div class="book b9">Paz</div>
+          <div class="book b10">Donoso</div>
+          <div class="book b11">Parra</div>
+          <div class="book b12">Rulfo</div>
+        </div>
+        <div class="shelf shelf2">
+          <div class="book b3">Cervantes</div>
+          <div class="book b7">Woolf</div>
+          <div class="book b1">Kafka</div>
+          <div class="book b9">Proust</div>
+          <div class="book b5">Duras</div>
+          <div class="book b2">Tolstoi</div>
+          <div class="book b10">Saramago</div>
+          <div class="book b4">Lispector</div>
+          <div class="book b6">Camus</div>
+          <div class="book b8">Beauvoir</div>
+          <div class="book b11">Bolano</div>
+        </div>
+      </div>
+      <div class="hero-quote">
+        "Un lector vive mil vidas antes de morir. El hombre que nunca lee solo vive una."
+        <cite>— George R.R. Martin</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NOSOTROS ─── -->
+<section id="nosotros">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <div class="section-eyebrow">Nuestra historia</div>
+        <h2 class="section-title">Cultura que <em>sana</em> mientras esperas</h2>
+        <p class="about-body">
+          Parada Literaria nació de observar algo cotidiano: miles de personas esperan cada día en centros de salud, a veces horas, sin más compañía que la ansiedad de lo que viene.
+        </p>
+        <p class="about-body">
+          Decidimos transformar esa espera. No solo en tiempo bien aprovechado, sino en una oportunidad para que la literatura llegue a quienes quizás nunca entraron a una librería, pero sí a un consultorio.
+        </p>
+        <p class="about-body">
+          La dinámica es sencilla y hermosa: cualquier persona puede llevarse un libro gratis. Y si quiere, cuando termine, puede devolverloy seguir la cadena —o donar uno nuevo. Los libros circulan, las historias se comparten, la comunidad se construye.
+        </p>
+        <div class="about-values">
+          <div class="value-item">
+            <div class="value-icon">📖</div>
+            <div class="value-text">
+              <strong>Acceso libre</strong>
+              <p>Todo libro es gratuito. Nadie necesita credenciales, pagos ni registros para leer.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🤝</div>
+            <div class="value-text">
+              <strong>Economía circular del libro</strong>
+              <p>Los libros fluyen: se llevan, se devuelven, se donan. Cada libro puede tocar decenas de manos.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🏥</div>
+            <div class="value-text">
+              <strong>Bienestar integral</strong>
+              <p>La lectura reduce la ansiedad y enriquece la espera. Cuidamos también la salud del alma.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual fade-up">
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year">2021</div>
+            <div class="timeline-event">La primera parada</div>
+            <div class="timeline-desc">Una pequeña repisa con 30 libros en el Centro de Salud Familiar del barrio. La gente se los llevó en una semana.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2022</div>
+            <div class="timeline-event">Primeras donaciones</div>
+            <div class="timeline-desc">La comunidad respondió: 400 libros donados en el primer año. Ampliamos a 4 centros de salud.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2023</div>
+            <div class="timeline-event">Red de paradas</div>
+            <div class="timeline-desc">Llegamos a 8 centros. Incorporamos sección infantil y libros en lengua de señas.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <div class="timeline-event">Expansión regional</div>
+            <div class="timeline-desc">12 paradas activas, convenio con 3 municipios y más de 3.000 lectores registrados.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-event">Hoy</div>
+            <div class="timeline-desc">Seguimos creciendo. Con tu ayuda, cada sala de espera puede ser una biblioteca.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CÓMO FUNCIONA ─── -->
+<section id="como-funciona">
+  <div class="container">
+    <div class="how-header fade-up">
+      <div class="section-eyebrow" style="justify-content:center;">El modelo</div>
+      <h2 class="section-title">Simple, libre y <em>circular</em></h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card fade-up">
+        <div class="how-number">01</div>
+        <div class="how-icon">🏥</div>
+        <h3 class="how-title">Instalamos una biblioteca</h3>
+        <p class="how-desc">Colocamos una repisa o mueble especialmente diseñado en la sala de espera del centro de salud, con señalética clara y una selección diversa de libros para todas las edades.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-number">02</div>
+        <div class="how-icon">📚</div>
+        <h3 class="how-title">Llevas el libro que quieras</h3>
+        <p class="how-desc">Cualquier paciente, acompañante o funcionario puede tomar un libro gratis, sin registros ni compromisos. Los libros son tuyos para que los disfrutes tranquilamente.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-number">03</div>
+        <div class="how-icon">🔄</div>
+        <h3 class="how-title">La cadena continúa</h3>
+        <p class="how-desc">Si lo deseas, puedes devolver el libro cuando termines o donar uno tuyo. La colección crece gracias a la generosidad de la comunidad. Cada libro puede tocar decenas de vidas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROYECTOS ─── -->
+<section id="proyectos">
+  <div class="container">
+    <div class="projects-header">
+      <div>
+        <div class="section-eyebrow">Paradas activas</div>
+        <h2 class="section-title">Nuestros <em>proyectos</em></h2>
+      </div>
+      <a href="#contacto" class="btn-secondary">Ver todas las paradas →</a>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card featured fade-up">
+        <div class="project-img img-hospital">
+          <span>🏥</span>
+          <div class="project-badge">Parada destacada</div>
+        </div>
+        <div class="project-body">
+          <div class="project-location">📍 Hospital Central — Área de urgencias</div>
+          <h3 class="project-name">Biblioteca del Pasillo Norte</h3>
+          <p class="project-desc">Nuestra parada más grande y concurrida. Ubicada en el pasillo principal del Hospital Central, donde el flujo de personas es constante. Cuenta con más de 200 títulos entre literatura, autoayuda, ciencia popular y una sección especial para niños.</p>
+          <div class="project-meta">
+            <div class="meta-item">
+              <div class="meta-value">200+</div>
+              <div class="meta-label">Libros</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-value">500</div>
+              <div class="meta-label">Lectores/mes</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-value">2022</div>
+              <div class="meta-label">Fundada</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img img-clinic">
+          <span>💊</span>
+          <div class="project-badge">En crecimiento</div>
+        </div>
+        <div class="project-body">
+          <div class="project-location">📍 CESFAM Villa Verde</div>
+          <h3 class="project-name">La Parada del Barrio</h3>
+          <p class="project-desc">Primera parada comunitaria, con fuerte identidad de barrio y libros en español e idiomas originarios.</p>
+          <div class="project-meta">
+            <div class="meta-item">
+              <div class="meta-value">120</div>
+              <div class="meta-label">Libros</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-value">200</div>
+              <div class="meta-label">Lectores/mes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img img-pediatric">
+          <span>👶</span>
+          <div class="project-badge">Infantil</div>
+        </div>
+        <div class="project-body">
+          <div class="project-location">📍 Clínica Pediátrica Sur</div>
+          <h3 class="project-name">El Rincón de los Cuentos</h3>
+          <p class="project-desc">Parada dedicada a la infancia. Cuentos ilustrados, álbumes y libros táctiles para los más pequeños y sus familias.</p>
+          <div class="project-meta">
+            <div class="meta-item">
+              <div class="meta-value">90</div>
+              <div class="meta-label">Libros</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-value">150</div>
+              <div class="meta-label">Lectores/mes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img img-mobile">
+          <span>🚐</span>
+          <div class="project-badge">Nuevo</div>
+        </div>
+        <div class="project-body">
+          <div class="project-location">📍 Postas rurales — Itinerante</div>
+          <h3 class="project-name">Parada Móvil</h3>
+          <p class="project-desc">Biblioteca rodante que visita centros de salud rurales donde la lectura es aún más escasa y el camino es largo.</p>
+          <div class="project-meta">
+            <div class="meta-item">
+              <div class="meta-value">60</div>
+              <div class="meta-label">Libros</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-value">8</div>
+              <div class="meta-label">Rutas/mes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EQUIPO ─── -->
+<section id="equipo">
+  <div class="container">
+    <div class="team-header fade-up">
+      <div class="section-eyebrow">Las personas detrás</div>
+      <h2 class="section-title">Quiénes somos</h2>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:rgba(245,239,224,0.6); max-width:600px; margin:1.5rem auto 0; line-height:1.7; font-style:italic;">Un grupo de personas que creen que la cultura es un derecho, no un privilegio. Voluntarios, gestores culturales y amantes de los libros.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card fade-up">
+        <div class="team-avatar">👩‍💼</div>
+        <div class="team-name">Valentina Cruz</div>
+        <div class="team-role">Fundadora & Directora</div>
+        <div class="team-bio">Gestora cultural. Creyó que una repisa con libros podía cambiar la espera —y tenía razón.</div>
+      </div>
+      <div class="team-card fade-up">
+        <div class="team-avatar">👨‍🎨</div>
+        <div class="team-name">Rodrigo Pérez</div>
+        <div class="team-role">Diseño & Espacios</div>
+        <div class="team-bio">Arquitecto de profesión, lector de vocación. Diseña cada parada para que sea acogedora e irresistible.</div>
+      </div>
+      <div class="team-card fade-up">
+        <div class="team-avatar">👩‍🏫</div>
+        <div class="team-name">Camila Torres</div>
+        <div class="team-role">Coordinación de donaciones</div>
+        <div class="team-bio">Bibliotecaria. Conoce cada libro de la colección y asegura que lleguen las obras correctas a cada parada.</div>
+      </div>
+      <div class="team-card fade-up">
+        <div class="team-avatar">👨‍💻</div>
+        <div class="team-name">Matías Fuentes</div>
+        <div class="team-role">Comunicaciones</div>
+        <div class="team-bio">Periodista y cuentacuentos. Difunde el proyecto y convierte cada historia de lector en inspiración para otros.</div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:4rem;" class="fade-up">
+      <p style="font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:rgba(245,239,224,0.6); font-style:italic; margin-bottom:2rem;">¿Quieres sumarte al equipo de voluntarios?</p>
+      <a href="#contacto" class="btn-primary">Quiero ser voluntario/a</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DONAR ─── -->
+<section id="donar">
+  <div class="container" style="position:relative;">
+    <div class="fade-up">
+      <h2 class="donate-title">Tu libro puede <em>cambiar</em><br>la espera de alguien</h2>
+      <p class="donate-desc">Un libro que ya leíste puede acompañar a cientos de personas. Donar es fácil y tiene un impacto enorme en la comunidad.</p>
+
+      <div class="donate-options">
+        <div class="donate-option active">
+          <div class="opt-icon">📗</div>
+          <div class="opt-title">Donar un libro</div>
+          <div class="opt-desc">Tráelo a cualquier parada o punto de recepción</div>
+        </div>
+        <div class="donate-option">
+          <div class="opt-icon">📦</div>
+          <div class="opt-title">Donación masiva</div>
+          <div class="opt-desc">¿Tienes una colección? La buscamos</div>
+        </div>
+        <div class="donate-option">
+          <div class="opt-icon">🏢</div>
+          <div class="opt-title">Empresa/institución</div>
+          <div class="opt-desc">Alianza corporativa y responsabilidad social</div>
+        </div>
+        <div class="donate-option">
+          <div class="opt-icon">💛</div>
+          <div class="opt-title">Apoyo económico</div>
+          <div class="opt-desc">Ayuda con muebles, transporte o materiales</div>
+        </div>
+      </div>
+
+      <a href="#contacto" class="btn-donate">Quiero donar ahora</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACTO ─── -->
+<section id="contacto">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <div class="section-eyebrow">Hablemos</div>
+        <h2 class="section-title">¿Quieres <em>sumarte</em>?</h2>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:1.15rem; line-height:1.7; color:var(--bark); margin-bottom:3rem;">
+          Escríbenos si quieres colaborar, proponer un nuevo centro de salud, donar libros o simplemente saber más sobre el proyecto.
+        </p>
+
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-label">Correo electrónico</div>
+            <div class="contact-value">hola@paradaliteraria.cl</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div>
+            <div class="contact-label">WhatsApp / Teléfono</div>
+            <div class="contact-value">+56 9 1234 5678</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Punto central de donaciones</div>
+            <div class="contact-value">Av. Los Lectores 1205, <br>piso 2, Santiago</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <div class="contact-label">Horario de recepción</div>
+            <div class="contact-value">Lunes a viernes 10:00–18:00</div>
+          </div>
+        </div>
+
+        <div class="contact-social">
+          <a href="#" class="social-btn">📸</a>
+          <a href="#" class="social-btn">📘</a>
+          <a href="#" class="social-btn">🐦</a>
+          <a href="#" class="social-btn">▶️</a>
+        </div>
+      </div>
+
+      <div class="contact-form fade-up">
+        <h3 class="form-title">Escríbenos</h3>
+        <p class="form-subtitle">Respondemos en menos de 48 horas</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label>Apellido</label>
+            <input type="text" placeholder="Tu apellido">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" placeholder="tu@correo.cl">
+        </div>
+
+        <div class="form-group">
+          <label>Motivo de contacto</label>
+          <select>
+            <option value="">Selecciona una opción...</option>
+            <option>Donar libros</option>
+            <option>Proponer un centro de salud</option>
+            <option>Ser voluntario/a</option>
+            <option>Alianza institucional o empresarial</option>
+            <option>Prensa y comunicaciones</option>
+            <option>Otro</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Mensaje</label>
+          <textarea placeholder="Cuéntanos cómo quieres colaborar..."></textarea>
+        </div>
+
+        <button class="btn-primary" style="width:100%; text-align:center; border:none;">Enviar mensaje</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo">Parada <span>Literaria</span></span>
+        <p class="footer-tagline">Transformando salas de espera en espacios de cultura, una parada a la vez.</p>
+        <p style="font-size:0.78rem; letter-spacing:0.05em;">Organización sin fines de lucro · Registro N° 12345</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegar</h4>
+        <ul class="footer-links">
+          <li><a href="#nosotros">Quiénes somos</a></li>
+          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#equipo">El equipo</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Participar</h4>
+        <ul class="footer-links">
+          <li><a href="#donar">Donar un libro</a></li>
+          <li><a href="#contacto">Ser voluntario/a</a></li>
+          <li><a href="#contacto">Proponer un centro</a></li>
+          <li><a href="#contacto">Alianzas institucionales</a></li>
+          <li><a href="#contacto">Prensa</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Parada Literaria — Hecho con <span class="footer-heart">♥</span> para la comunidad</div>
+      <div class="footer-copy">Política de privacidad · Términos de uso</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── Scroll animations ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ─── Donate option toggle ───
+  document.querySelectorAll('.donate-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.donate-option').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+    });
+  });
+
+  // ─── Nav scroll effect ───
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.boxShadow = '0 2px 30px rgba(28, 20, 9, 0.12)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  });
+</script>
+</body>
+</html>
