@@ -245,6 +245,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
   }
 
   /* Decorative bookshelf illustration */
@@ -322,32 +323,33 @@
   }
 
   /* ─── SECTION COMMON ─── */
-  section { padding: 7rem 0; }
+  section { padding: 4rem 0; }
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 4rem;
+    padding: 0 2rem;
   }
 
   .section-eyebrow {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.4rem;
     text-transform: uppercase;
     color: var(--terracotta);
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     display: flex;
     align-items: center;
     gap: 1rem;
   }
-
+  .section-eyebrow::before,
   .section-eyebrow::after {
     content: '';
-    flex: 1;
     height: 1px;
+    width: 40px;
     background: var(--parchment);
-    max-width: 80px;
+    opacity: 0.5;
   }
 
   .section-title {
@@ -356,7 +358,7 @@
     font-weight: 700;
     line-height: 1.15;
     color: var(--ink);
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.8rem;
   }
 
   .section-title em { font-style: italic; color: var(--terracotta); }
@@ -620,14 +622,10 @@
   }
 
   .project-img {
-    height: 240px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-  }
+  position: relative;
+  height: 250px; /* O el tamaño que prefieras */
+  overflow: hidden; /* Esto es clave para que la imagen se recorte en las esquinas */
+}
 
   .project-card.featured .project-img { height: 320px; }
 
@@ -744,8 +742,8 @@
 
 /* ─── EL TRUCO PARA LAS FOTOS CIRCULARES ─── */
 .team-avatar {
-  width: 150px; /* Fotos más grandes y profesionales */
-  height: 150px;
+  width: 200px; /* Fotos más grandes y profesionales */
+  height: 200px;
   margin: 0 auto 1.5rem;
   display: flex;
   align-items: center;
@@ -770,7 +768,7 @@
 /* Ajustes de color de texto para el fondo claro */
 .team-name {
   font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 0.3rem;
@@ -778,7 +776,7 @@
 
 .team-role {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.8rem;
+  font-size: 1rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--terracotta); /* Rol en terracotta para destacar */
@@ -788,7 +786,7 @@
 
 .team-bio {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   line-height: 1.7;
   color: rgba(28, 20, 9, 0.7);
   font-style: italic;
@@ -936,18 +934,20 @@
 
   .contact-label {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--terracotta);
-    margin-bottom: 0.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
   }
 
   .contact-value {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: var(--ink);
     line-height: 1.4;
+    font-weight: 500;
   }
 
   .contact-social {
@@ -987,9 +987,10 @@
   .form-subtitle {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--bark);
     margin-bottom: 2rem;
+    opacity: 0.9;
   }
 
   .form-group {
@@ -1119,7 +1120,15 @@
   }
 
   /* ─── RESPONSIVE ─── */
-  @media (max-width: 900px) {
+  @media (max-width: 768px) { 
+
+    .form-row {
+    grid-template-columns: 1fr; /* En celulares, los campos se ponen uno sobre otro */
+  }
+  
+  .contact-form {
+    padding: 2rem 1.5rem; /* Menos espacio interno en pantallas chicas */
+  }
     nav { padding: 1rem 2rem; }
     .nav-links { display: none; }
     #hero { grid-template-columns: 1fr; }
